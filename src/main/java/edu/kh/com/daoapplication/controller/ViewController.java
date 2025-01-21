@@ -2,6 +2,7 @@ package edu.kh.com.daoapplication.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -30,9 +31,23 @@ public class ViewController {
         return "userDetail";
     }
 
-    @GetMapping("/products")
+    @GetMapping("/products/detail")
     public String getAProduct(@RequestParam("id") int id) {
         return "productDetail";
     }
 
+    @GetMapping("/books")
+    public String getBooks() {
+        return "books";
+    }
+
+    @GetMapping("/book")
+    public String getBookById(@RequestParam("id") int id) {
+        return "bookDetail";
+    }
+
+    @GetMapping("/book/add")
+    public String saveBook() {
+        return "newBooks";
+    }
 }

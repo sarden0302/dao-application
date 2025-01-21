@@ -20,7 +20,7 @@
             margin-top: 20px;
         }
 
-        #userList {
+        #bookList {
             list-style: none;
             padding: 20px;
             margin: 20px auto;
@@ -31,12 +31,12 @@
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
         }
 
-        #userList li {
+        #bookList td {
             padding: 10px;
             border-bottom: 1px solid #ddd;
         }
 
-        #userList li:last-child {
+        #bookList td:last-child {
             border-bottom: none;
         }
 
@@ -83,88 +83,37 @@
 
 </head>
 <body>
-<h1>유저 조회</h1>
-<ul id="userList">
-</ul>
+<h1>책 조회</h1>
+<table id="bookList">
+    <tr>
+        <th>ID</th>
+        <th>제목</th>
+        <th>저자</th>
+        <th>장르</th>
+    </tr>
+</table>
 <script>
     $.ajax({
-        url: "/api/users",
+        url: "/api/books",
         method: "GET",
         success: function(data) {
-            $.each(data, function(index, item) {
+            $.each(data, function(index, book) {
                 /* ?id=${item.id} 상세보기 페이지에 유저 번호를 주소값 뒤에 작성해줄 뿐
                 * MySQL 데이터가 안 넘어와도 페이지를 보여주는 수단일 뿐이기 때문에
                 * 데이터 상관 X  */
-                $('#userList').append(`
-                    <li><a href="/user?id=${item.id}">${item.username}</a></li>
+                $('#bookList').append(`
+                    <tr>
+                        <td><a href="/book?id=${book.id}">${book.id}</a></td>
+                        <td><a href="/book?id=${book.id}">${book.title}</a></td>
+                        <td><a href="/book?id=${book.id}">${book.author}</a></td>
+                        <td><a href="/book?id=${book.id}">${book.genre}</a></td>
+                    </tr>
                 `);
             })
         },
         error: function() {
-            $("#userList").html("백엔드에서 데이터를 가져올 수 없습니다.");
+            $("#bookList").html("백엔드에서 데이터를 가져올 수 없습니다.");
         }
-
-    })
-</script>
-
-<h1>유저 등록</h1>
-<form id="userForm">
-    <label for="username">유저 아이디 : </label>
-    <input type="text" id="username" name="username">
-
-    <label for="password">비밀번호 : </label>
-    <input type="password" id="password" name="password">
-
-    <button>등록</button> <!-- button type="submit" 기본값! -->
-
-</form>
-<script>
-    $('#userForm').submit(function(e) {
-        e.preventDefault(); // form 을 제출하기 전에 잠깐 멈추기
-
-        const username = $('#username').val();
-        const password = $('#password').val();
-
-        /*
-        // 정규식 검사 && 빈칸 검사
-        if (!username) {
-            alert("등록하고자 하는 아이디를 작성하세요.");
-            return;
-        }
-        if (!password) {
-            alert("비밀번호를 작성하세요.");
-            return;
-        }
-        const usernameRegex = /^[a-zA-Z0-9]{5,15}$/;
-        const passwordRegex = /^(?=.[A-Za-z])(?=.\\d)[A-Za-z\\d]{8,}$/;
-        // 정규식 검사
-        if (!usernameRegex.test(username)) {
-            alert("아이디는 5~15자 영문 숫자로만 작성");
-            return;
-        }
-        if (!passwordRegex.test(password)) {
-            alert("비밀번호는 최소 8자, 하나 이상의 문자 및 숫자를 포함해야한다.");
-            return;
-        }*/
-
-        $.ajax({
-            url: "/api/saveUser",
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-                username: username,
-                password: password
-            }),
-            success: function() {
-                alert("유저가 성공적으로 등록되었습니다.");
-                $("#userList").append(`<li>${username}</li>`);
-                $("#username").val('');
-                $("#password").val('');
-            },
-            error: function() {
-                alert("유저 등록에 실패했습니다.");
-            }
-        })
 
     })
 </script>

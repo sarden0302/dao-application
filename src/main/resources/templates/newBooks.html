@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAO를 이용해서 유저 조회 / 저장</title>
+    <title>Title</title>
     <link rel="icon" href="/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
@@ -20,7 +20,7 @@
             margin-top: 20px;
         }
 
-        #productList {
+        #bookList {
             list-style: none;
             padding: 20px;
             margin: 20px auto;
@@ -31,12 +31,12 @@
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
         }
 
-        #productList li {
+        #bookList td {
             padding: 10px;
             border-bottom: 1px solid #ddd;
         }
 
-        #productList li:last-child {
+        #bookList td:last-child {
             border-bottom: none;
         }
 
@@ -81,88 +81,53 @@
     </style>
 </head>
 <body>
-<h1>상품 조회</h1>
-<ul id="productList">
-</ul>
-<script>
-    function getProductList() {
-        $.ajax({
-            url: "/api/products",
-            method: "GET",
-            success: function(data) {
-                $('#productList').empty();
-                $.each(data, function(index, item) {
-                    $('#productList').append(`
-                        <li><a href="/products/detail?id=${item.id}">${item.name} - ${item.price} (재고: ${item.stock})</a></li>
-                    `);
-                })
-            },
-            error: function() {
-                $("#productList").html("백엔드에서 데이터를 가져올 수 없습니다.");
-            }
-        })
-    }
+<h1>책 등록</h1>
+<form id="bookForm">
+    <label for="title">제목 : </label>
+    <input type="text" id="title" name="title">
 
-    getProductList();
-</script>
+    <label for="author">작가 : </label>
+    <input type="text" id="author" name="author">
 
-<h1>상품 등록</h1>
-<form id="productForm">
-    <label for="name">상품 이름 : </label>
-    <input type="text" id="name" name="name">
+    <label for="genre">장르 : </label>
+    <input type="text" id="genre" name="genre">
 
-    <label for="price">가격 : </label>
-    <input type="number" id="price" name="price">
+    <button>등록</button> <!-- button type="submit" 기본값! -->
 
-    <label for="description">설명 : </label>
-    <textarea id="description" name="description"></textarea>
-
-    <label for="stock">재고 : </label>
-    <input type="number" id="stock" name="stock">
-
-    <button type="button" id="saveProductButton">제품저장</button>
 </form>
 <script>
-    $('#saveProductButton').click(function(e) {
+    $('#userForm').submit(function(e) {
         e.preventDefault(); // form 을 제출하기 전에 잠깐 멈추기
-        // type="button" 형식으로 해서 제출 전에 정규식 및 빈칸 검사 등을 제출 전에 할 수 있다.
-
-
-        let name = $('#name').val();
-        let price = $('#price').val();
-        let description = $('#description').val();
-        let stock = $('#stock').val();
-
-        if (!name || !price || !description || !stock) {
-            alert("모든 필드를 입력해주세요.");
-            return;
-        }
+        let title = $('#title').val();
+        let author = $('#author').val();
+        let genre = $('#genre').val();
 
         $.ajax({
-            url: "/api/saveProduct",
+            url: "/api/bookSave",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify({
-                name: name,
-                price: price,
-                description: description,
-                stock: stock
+                title: title,
+                author: author,
+                genre: genre
             }),
             success: function() {
-                alert("상품이 성공적으로 등록되었습니다.");
-                getProductList();
-                $('#name').val('');
-                $('#price').val('');
-                $('#description').val('');
-                $('#stock').val('');
+                alert("새로운 책이 성공적으로 등록되었습니다.");
+                $("#bookList").append(`<tr>
+                        <td><a href="/book?id=${title}">${title}</a></td>
+                        <td><a href="/book?id=${title}">${author}</a></td>
+                        <td><a href="/book?id=${title}">${genre}</a></td>
+                    </tr>`);
+                $("#title").val('');
+                $("#author").val('');
+                $("#genre").val('');
             },
             error: function() {
-                alert("상품 등록에 실패했습니다.");
+                alert("책 등록에 실패했습니다.");
             }
         })
 
     })
 </script>
-
 </body>
 </html>

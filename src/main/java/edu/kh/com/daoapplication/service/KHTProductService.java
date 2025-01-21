@@ -1,6 +1,6 @@
 package edu.kh.com.daoapplication.service;
 
-import edu.kh.com.daoapplication.dao.KHTProduct;
+import edu.kh.com.daoapplication.entity.KHTProduct;
 import edu.kh.com.daoapplication.repository.KHTProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
