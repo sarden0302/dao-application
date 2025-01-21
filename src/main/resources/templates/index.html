@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAO를 이용해서 유저 조회 / 저장</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #userList {
+            list-style: none;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 300px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+        }
+
+        #userList li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #userList li:last-child {
+            border-bottom: none;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+        }
+        button:hover {
+            background-color: #0056ff;
+        }
+        alert {
+            text-align: center;
+        }
+    </style>
+
+
+</head>
+<body>
+<h1>유저 조회</h1>
+<ul id="userList">
+</ul>
+<script>
+    $.ajax({
+        url: "/api/users",
+        method: "GET",
+        success: function(data) {
+            $.each(data, function(index, item) {
+                $('#userList').append(`
+                    <li>${item.username}</li>
+                `);
+            })
+        },
+        error: function() {
+            $("#userList").html("백엔드에서 데이터를 가져올 수 없습니다.");
+        }
+
+    })
+</script>
+
+<h1>유저 등록</h1>
+<form id="userForm">
+    <label for="username">유저 아이디 : </label>
+    <input type="text" id="username" name="username">
+
+    <label for="password">비밀번호 : </label>
+    <input type="password" id="password" name="password">
+
+    <button>등록</button> <!-- button type="submit" 기본값! -->
+
+</form>
+<script>
+    $('#userForm').submit(function(e) {
+        e.preventDefault(); // form 을 제출하기 전에 잠깐 멈추기
+
+        const username = $('#username').val();
+        const password = $('#password').val();
+
+        $.ajax({
+            url: "/api/saveUser",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                username: username,
+                password: password
+            }),
+            success: function() {
+                alert("유저가 성공적으로 등록되었습니다.");
+                $("#userList").append(`<li>${username}</li>`);
+                $("#username").val('');
+                $("#password").val('');
+            },
+            error: function() {
+                alert("유저 등록에 실패했습니다.");
+            }
+        })
+
+    })
+</script>
+
+</body>
+</html>
