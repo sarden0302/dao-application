@@ -122,6 +122,27 @@
         const username = $('#username').val();
         const password = $('#password').val();
 
+        // 정규식 검사 && 빈칸 검사
+        if (!username) {
+            alert("등록하고자 하는 아이디를 작성하세요.");
+            return;
+        }
+        if (!password) {
+            alert("비밀번호를 작성하세요.");
+            return;
+        }
+        const usernameRegex = /^[a-zA-Z0-9]{5,15}$/;
+        const passwordRegex = /^(?=.[A-Za-z])(?=.\\d)[A-Za-z\\d]{8,}$/;
+        // 정규식 검사
+        if (!usernameRegex.test(username)) {
+            alert("아이디는 5~15자 영문 숫자로만 작성");
+            return;
+        }
+        if (!passwordRegex.test(password)) {
+            alert("비밀번호는 최소 8자, 하나 이상의 문자 및 숫자를 포함해야한다.");
+            return;
+        }
+
         $.ajax({
             url: "/api/saveUser",
             method: "POST",
