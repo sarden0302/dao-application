@@ -92,8 +92,11 @@
         method: "GET",
         success: function(data) {
             $.each(data, function(index, item) {
+                /* ?id=${item.id} 상세보기 페이지에 유저 번호를 주소값 뒤에 작성해줄 뿐
+                * MySQL 데이터가 안 넘어와도 페이지를 보여주는 수단일 뿐이기 때문에
+                * 데이터 상관 X  */
                 $('#userList').append(`
-                    <li>${item.username}</li>
+                    <li><a href="/user?id=${item.id}">${item.username}</a></li>
                 `);
             })
         },

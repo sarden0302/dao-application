@@ -22,4 +22,9 @@ public class KHTUserService {
     public KHTUser save(KHTUser khtUser) {
         return khtUserRepository.save(khtUser);
     }
+
+    // 아이디를 활용해서 유저 상세보기
+    public KHTUser findById(int id) {
+        return khtUserRepository.findById(id);
+    }
 }

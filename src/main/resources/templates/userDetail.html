@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유저 정보</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>유저 상세 정보</h1>
+<div id="userDetail">
+    <!-- 만약 번호에 해당하는 id 값을 ajax 이용해서 MySQL DB에 id 값을 전달하고,
+        id 값이 db에 존재하면 해당하는 유저 정보 가져오기                          -->
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    $.ajax({
+        url: `/api/user/${id}`,
+        method: "GET",
+        success: function (data) {
+            if (data) {
+                $("#userDetail").html(`
+                    <p><strong> 유저 닉네임 : </strong>${data.username}</p>
+                    <p><strong> 유저 비밀번호 : </strong>${data.password}</p>
+                `);
+            } else {
+                $("#userDetail").html('<p>조회 되지 않는 회원입니다.</p>');
+
+            }
+        },
+        error : function () {
+            $("#userDetail").html('<p>백엔드에서 데이터 가져올 수 없는 상태입니다.</p>');
+
+        }
+
+
+    })
+
+
+</script>
+</body>
+</html>
