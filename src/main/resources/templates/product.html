@@ -79,29 +79,31 @@
             text-align: center;
         }
     </style>
-
-
 </head>
 <body>
 <h1>상품 조회</h1>
 <ul id="productList">
 </ul>
 <script>
-    $.ajax({
-        url: "/api/products",
-        method: "GET",
-        success: function(data) {
-            $.each(data, function(index, item) {
-                $('#productList').append(`
-                    <li>${item.name} - ${item.price} (재고: ${item.stock})</li>
-                `);
-            })
-        },
-        error: function() {
-            $("#productList").html("백엔드에서 데이터를 가져올 수 없습니다.");
-        }
+    function getProductList() {
+        $.ajax({
+            url: "/api/products",
+            method: "GET",
+            success: function(data) {
+                $('#productList').empty();
+                $.each(data, function(index, item) {
+                    $('#productList').append(`
+                        <li>${item.name} - ${item.price} (재고: ${item.stock})</li>
+                    `);
+                })
+            },
+            error: function() {
+                $("#productList").html("백엔드에서 데이터를 가져올 수 없습니다.");
+            }
+        })
+    }
 
-    })
+    getProductList();
 </script>
 
 <h1>상품 등록</h1>
@@ -113,7 +115,7 @@
     <input type="number" id="price" name="price">
 
     <label for="description">설명 : </label>
-    <input type="text" id="description" name="description">
+    <textarea id="description" name="description"></textarea>
 
     <label for="stock">재고 : </label>
     <input type="number" id="stock" name="stock">
@@ -140,17 +142,15 @@
                 stock: stock
             }),
             success: function() {
-                alert("유저가 성공적으로 등록되었습니다.");
-                $('#productList').append(`
-                    <li>${item.name} - ${item.price} (재고: ${item.stock})</li>
-                `);
-                $("#name").val('');
-                $("#price").val('');
-                $("#description").val('');
-                $("#stock").val('');
+                alert("상품이 성공적으로 등록되었습니다.");
+                getProductList();
+                $('#name').val('');
+                $('#price').val('');
+                $('#description').val('');
+                $('#stock').val('');
             },
             error: function() {
-                alert("유저 등록에 실패했습니다.");
+                alert("상품 등록에 실패했습니다.");
             }
         })
 
