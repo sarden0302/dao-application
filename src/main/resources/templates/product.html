@@ -93,7 +93,7 @@
                 $('#productList').empty();
                 $.each(data, function(index, item) {
                     $('#productList').append(`
-                        <li>${item.name} - ${item.price} (재고: ${item.stock})</li>
+                        <li><a href="/products?id=${item.id}">${item.name} - ${item.price} (재고: ${item.stock})</a></li>
                     `);
                 })
             },

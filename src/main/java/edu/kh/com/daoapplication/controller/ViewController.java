@@ -30,4 +30,9 @@ public class ViewController {
         return "userDetail";
     }
 
+    @GetMapping("/products")
+    public String getAProduct(@RequestParam("id") int id) {
+        return "productDetail";
+    }
+
 }

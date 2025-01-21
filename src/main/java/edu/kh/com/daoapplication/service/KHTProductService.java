@@ -21,4 +21,8 @@ public class KHTProductService {
         return khtProductRepository.save(khtProduct);
     }
 
+    public KHTProduct findProductById(int id) {
+        return khtProductRepository.findProductById(id);
+    }
+
 }

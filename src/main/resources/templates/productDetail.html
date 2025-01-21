@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제품 상세 조회</title>
+    <style>
+        body {
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+
+        #productForm {
+            text-align: center;
+            margin: 20px;
+        }
+
+        #productDetails {
+            margin-top: 20px;
+            text-align: center;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>제품 상세 조회</h1>
+<div id="productDetails">
+    <p>제품 정보를 불러오는 중입니다...</p>
+</div>
+
+<script>
+    const apiURL = new URLSearchParams(window.location.search);
+    const id = apiURL.get('id');
+    console.log("product detail id = " + id);
+    $.ajax({
+        url: `/api/products/${id}`,
+        method: 'GET',
+        success: function (product) {
+            $('#productDetails').html(
+                `<h2>제품 상세 정보</h2>
+                            <p><strong>제품 ID:${product.id}</strong></p>
+                            <p><strong>제품 이름:${product.name}</strong></p>
+                            <p><strong>가격:${product.price}</strong> 원</p>
+                            <p><strong>설명:${product.description}</strong></p>
+                            <p><strong>재고:${product.stock}</strong> </p>`
+            );
+        },
+        error: function () {
+            $('#productDetails').html('');
+        }
+    });
+</script>
+</body>
+</html>
