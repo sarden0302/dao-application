@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
+    <title>책 등록하기</title>
     <link rel="icon" href="/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
@@ -81,8 +81,13 @@
     </style>
 </head>
 <body>
-<h1>책 등록</h1>
-<form id="bookForm">
+<h1>📝 책 등록하기</h1>
+<!--
+    1. form 태그를 이용해서 form 태그 내에 작성한 id 값으로 submit 해서 데이터 저장
+    2. form 태그 내 button type 을 button 형식으로 변경하고 click 해서 데이터 저장
+    3. div  태그 내 butto type 을 button 형식으로 변경하고 click 해서 데이터 저장
+-->
+<div id="book">
     <label for="title">제목 : </label>
     <input type="text" id="title" name="title">
 
@@ -94,9 +99,9 @@
 
     <button>등록</button> <!-- button type="submit" 기본값! -->
 
-</form>
+</div>
 <script>
-    $('#userForm').submit(function(e) {
+    $('#bookForm').submit(function(e) {
         e.preventDefault(); // form 을 제출하기 전에 잠깐 멈추기
         let title = $('#title').val();
         let author = $('#author').val();
@@ -113,11 +118,6 @@
             }),
             success: function() {
                 alert("새로운 책이 성공적으로 등록되었습니다.");
-                $("#bookList").append(`<tr>
-                        <td><a href="/book?id=${title}">${title}</a></td>
-                        <td><a href="/book?id=${title}">${author}</a></td>
-                        <td><a href="/book?id=${title}">${genre}</a></td>
-                    </tr>`);
                 $("#title").val('');
                 $("#author").val('');
                 $("#genre").val('');

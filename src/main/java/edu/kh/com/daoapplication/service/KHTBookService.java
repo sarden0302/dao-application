@@ -9,8 +9,9 @@ import java.util.List;
 
 @Service
 public class KHTBookService {
+
     @Autowired
-    KHTBookRepository khtBookRepository;
+    private KHTBookRepository khtBookRepository;
 
     public List<KHTBook> getAllBooks() {
         return khtBookRepository.findAll();

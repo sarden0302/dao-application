@@ -82,17 +82,19 @@ public class ApiController {
     }
 
     @GetMapping("/books")
-    public List<KHTBook> apiBooks() {
+    public List<KHTBook> books() {
         return khtBookService.getAllBooks();
     }
 
     @GetMapping("/book/{id}") // id 조회
-    public KHTBook apiBook(@PathVariable("id") int id) {
+    public KHTBook book(@PathVariable("id") int id) {
         return khtBookService.getBookById(id);
     }
 
     @PostMapping("/bookSave")
-    public KHTBook apisaveBook(@RequestBody KHTBook khtBook) {
-        return khtBookService.save(khtBook);
+    public KHTBook saveBook(@RequestBody KHTBook khtBook) {
+        KHTBook savedBook = khtBookService.save(khtBook);
+        log.info(savedBook.toString());
+        return savedBook;
     }
 }

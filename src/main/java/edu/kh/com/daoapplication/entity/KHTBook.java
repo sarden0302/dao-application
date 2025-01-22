@@ -7,8 +7,8 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @Setter
-@Entity
 @ToString
+@Entity
 public class KHTBook {
 
     @Id

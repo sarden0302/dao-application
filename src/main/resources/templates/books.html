@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAO를 이용해서 유저 조회 / 저장</title>
+    <title>책 목록 조회</title>
     <link rel="icon" href="/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
@@ -79,18 +79,22 @@
             text-align: center;
         }
     </style>
-
-
 </head>
 <body>
 <h1>책 조회</h1>
-<table id="bookList">
-    <tr>
+<table id="bookList" class="books-table">
+    <thead>
+    <tr> <!-- id 값을 tr 위 설정 appned -->
         <th>ID</th>
         <th>제목</th>
         <th>저자</th>
         <th>장르</th>
+        <th>이동하기</th>
     </tr>
+    </thead>
+    <tbody id="books">
+
+    </tbody>
 </table>
 <script>
     $.ajax({
@@ -98,15 +102,14 @@
         method: "GET",
         success: function(data) {
             $.each(data, function(index, book) {
-                /* ?id=${item.id} 상세보기 페이지에 유저 번호를 주소값 뒤에 작성해줄 뿐
-                * MySQL 데이터가 안 넘어와도 페이지를 보여주는 수단일 뿐이기 때문에
-                * 데이터 상관 X  */
-                $('#bookList').append(`
+
+                $('#books').append(`
                     <tr>
                         <td><a href="/book?id=${book.id}">${book.id}</a></td>
                         <td><a href="/book?id=${book.id}">${book.title}</a></td>
                         <td><a href="/book?id=${book.id}">${book.author}</a></td>
                         <td><a href="/book?id=${book.id}">${book.genre}</a></td>
+                        <td><a href="/book?id=${book.id}">이동</a></td>
                     </tr>
                 `);
             })
