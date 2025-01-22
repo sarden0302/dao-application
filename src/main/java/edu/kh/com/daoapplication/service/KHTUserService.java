@@ -23,7 +23,7 @@ public class KHTUserService {
     private KHTUserRepository khtUserRepository;
 
     @Value("D://Leo/SoftwareEngineering/book-image-path/images/users") // application.properties 에 작성한 이미지 경로 가져옴
-    private String uploadImg; // 가져온 경로는 uploadImg 공간 안에 담아줌
+    private String uploadUserImg; // 가져온 경로는 uploadImg 공간 안에 담아줌
 
     // 모든 유저 조회
     public List<KHTUser> findAll() {
@@ -38,21 +38,23 @@ public class KHTUserService {
         String filename = System.currentTimeMillis() + "_ " +  file.getOriginalFilename();
 
         //                          경로   + 파일명칭
-        File saveFile = new File(uploadImg, filename);
+        File saveFile = new File(uploadUserImg, filename);
 
         // 1. 이미지 저장하기
         try {
             file.transferTo(saveFile);
+            // 2. 이미지 경로 String 타입으로 저장하기
+            KHTUser khtUser = new KHTUser();
+            khtUser.setUsername(username);
+            khtUser.setPassword(passwordEncoder.encode(password));
+            khtUser.setImagePath("/images/" + filename);
+
+            return khtUserRepository.save(khtUser);
+
         } catch (IOException e) {
             System.out.println("이미지 저장 실패!");
+            throw new RuntimeException(e);
         }
-        // 2. 이미지 경로 String 타입으로 저장하기
-        KHTUser khtUser = new KHTUser();
-        khtUser.setUsername(username);
-        khtUser.setPassword(passwordEncoder.encode(password));
-        khtUser.setImagePath("/images/" + filename);
-
-        return khtUserRepository.save(khtUser);
     }
 
     // 아이디를 활용해서 유저 상세보기

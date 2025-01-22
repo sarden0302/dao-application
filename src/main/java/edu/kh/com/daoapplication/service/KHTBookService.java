@@ -18,7 +18,7 @@ public class KHTBookService {
     private KHTBookRepository khtBookRepository;
 
     @Value("D://Leo/SoftwareEngineering/book-image-path/images/books") // application.properties 에 작성한 이미지 경로 가져옴
-    private String uploadImg; // 가져온 경로는 uploadImg 공간 안에 담아줌
+    private String uploadBookImg; // 가져온 경로는 uploadImg 공간 안에 담아줌
 
     public List<KHTBook> getAllBooks() {
         return khtBookRepository.findAll();
@@ -40,7 +40,7 @@ public class KHTBookService {
         String filename = System.currentTimeMillis() + "_ " +  file.getOriginalFilename();
 
         //                          경로   + 파일명칭
-        File saveFile = new File(uploadImg, filename);
+        File saveFile = new File(uploadBookImg, filename);
 
         // 1. 이미지 저장하기
         try {
