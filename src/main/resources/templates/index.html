@@ -115,6 +115,9 @@
     <label for="password">비밀번호 : </label>
     <input type="password" id="password" name="password">
 
+    <label for="imagePath" ></label>
+    <input type="file" id="imagePath" required>
+
     <button>등록</button> <!-- button type="submit" 기본값! -->
 
 </form>
@@ -125,6 +128,10 @@
         const username = $('#username').val();
         const password = $('#password').val();
 
+        let formData = new FormData(); // 이미지 데이터를 포함해서 전달하는 기능 사용
+        formData.append("username", username);
+        formData.append("password", password);
+        formData.append("file", $("#imagePath")[0].files[0]);
         /*
         // 정규식 검사 && 빈칸 검사
         if (!username) {
@@ -148,13 +155,11 @@
         }*/
 
         $.ajax({
-            url: "/api/saveUser",
+            url: "/api/saveUserImage",
             method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-                username: username,
-                password: password
-            }),
+            processData: false, // FormData 를 전송할 때 필요
+            contentType: false, // FormData 를 전송할 때 필요
+            data: formData,
             success: function() {
                 alert("유저가 성공적으로 등록되었습니다.");
                 $("#userList").append(`<li>${username}</li>`);

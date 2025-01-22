@@ -52,14 +52,20 @@
         method: 'GET',
         success: function (book) {
             if (book) {
-                $('#bookDetails').html(
+                if (book.imagePath) {
+                    $('#bookDetails').html(`<img src="${book.imagePath}">`);
+                } else {
+                    $('#bookDetails').html(``);
+                }
+                $('#bookDetails').append(
                     `
                     <h1><strong>ID:${book.id}</strong></h1>
-                    <img src="${book.imagePath}"
                     <p><strong>제목:${book.title}</strong></p>
                     <p><strong>저자:${(book.author)}</strong></p>
                     <p><strong>장르:${(book.genre)}</strong></p>`
                 );
+
+
             }  else { // DB에서 해당 데이터가 0인 상태
                 $('#bookDetails').html('<p>존재하는 데이터가 없습니다.</p>');
 

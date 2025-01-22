@@ -13,6 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // resources
-        registry.addResourceHandler("/images/**").addResourceLocations("file:" + uploadImg + "/");
+        registry.addResourceHandler("/images/**") // 외부에서 보여질 가짜 이미지 경로 (암호화)
+                .addResourceLocations("file:" + uploadImg + "/"); // 실제 저장되는 진짜 이미지 경로
     }
 }

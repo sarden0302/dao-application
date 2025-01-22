@@ -38,9 +38,13 @@ public class ApiController {
     }
 
     // ajax url 을 이용해서 DB 에 회원 저장하기
-    @PostMapping("/saveUser")
-    public KHTUser saveUser(@RequestBody KHTUser khtUser) {
-        return khtUserService.save(khtUser);
+    @PostMapping("/saveUserImage")
+    public KHTUser saveUserImage(@RequestParam("password") String password,
+                                 @RequestParam("username") String username,
+                                 @RequestParam("file") MultipartFile file
+                                 ) {
+
+        return khtUserService.save(password, username, file);
     }
 
     @GetMapping("/products")
