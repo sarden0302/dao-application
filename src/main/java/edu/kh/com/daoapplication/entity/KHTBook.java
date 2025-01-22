@@ -15,6 +15,7 @@ public class KHTBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    // Column 작성 안할 경우 Default -> (unique=false, nullable=true)
     @Column(unique=true, nullable=false)
     private String title;
 

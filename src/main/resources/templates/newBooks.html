@@ -89,20 +89,19 @@
 -->
 <div id="book">
     <label for="title">제목 : </label>
-    <input type="text" id="title" name="title">
+    <input type="text" id="title" name="title" placeholder="책 제목 입력" required>
 
-    <label for="author">작가 : </label>
-    <input type="text" id="author" name="author">
+    <label for="author">저자 : </label>
+    <input type="text" id="author" name="author" placeholder="책 저자 입력" required>
 
     <label for="genre">장르 : </label>
-    <input type="text" id="genre" name="genre">
+    <input type="text" id="genre" name="genre" placeholder="책 장르 입력" required>
 
-    <button>등록</button> <!-- button type="submit" 기본값! -->
+    <button type="button" id="saveBook">등록하기</button> <!-- button type="submit" 기본값! -->
 
 </div>
 <script>
-    $('#bookForm').submit(function(e) {
-        e.preventDefault(); // form 을 제출하기 전에 잠깐 멈추기
+    $('#saveBook').click(function() {
         let title = $('#title').val();
         let author = $('#author').val();
         let genre = $('#genre').val();
@@ -118,16 +117,16 @@
             }),
             success: function() {
                 alert("새로운 책이 성공적으로 등록되었습니다.");
-                $("#title").val('');
-                $("#author").val('');
-                $("#genre").val('');
+                // 실행 완료 후 redirect
+                // window = 화면 창     location = 지역     href = 주소
+                window.location.href = "/books";    // ViewController 에서 책 목록 확인하는 api 주소
+                // 만약에 창 이동을 하지 않을 경우 기존에 작성한 title, author, genre .val('') 을 넣어 값 비우기
             },
             error: function() {
                 alert("책 등록에 실패했습니다.");
             }
         })
-
-    })
+    });
 </script>
 </body>
 </html>
