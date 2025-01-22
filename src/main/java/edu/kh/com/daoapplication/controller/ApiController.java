@@ -1,14 +1,15 @@
 package edu.kh.com.daoapplication.controller;
 
-import edu.kh.com.daoapplication.entity.KHTBook;
-import edu.kh.com.daoapplication.entity.KHTProduct;
-import edu.kh.com.daoapplication.entity.KHTUser;
+import edu.kh.com.daoapplication.model.entity.KHTBook;
+import edu.kh.com.daoapplication.model.entity.KHTProduct;
+import edu.kh.com.daoapplication.model.entity.KHTUser;
+import edu.kh.com.daoapplication.model.vo.VerificationRequest;
 import edu.kh.com.daoapplication.service.KHTBookService;
 import edu.kh.com.daoapplication.service.KHTProductService;
 import edu.kh.com.daoapplication.service.KHTUserService;
+import edu.kh.com.daoapplication.service.VerificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -114,5 +115,40 @@ public class ApiController {
                                @RequestParam("genre") String genre,
                                @RequestParam("file") MultipartFile file) {
         return khtBookService.save(title, author, genre, file);
+    }
+
+    /**************************** 이메일 인증 ***********************************/
+    @Autowired
+    private VerificationService verificationService;
+
+    @PostMapping("/sendCode")
+    public String sendCode(@RequestBody VerificationRequest vr) {
+        log.info("==== Request Controller /api/sendCode ====");
+        String email = vr.getEmail();
+        log.info("controller - email : {}", email);
+
+        String code = verificationService.randomCode();
+        log.info("controller - code : {}", code);
+
+        verificationService.saveEmailCode(email, code);
+        log.info("controller - Save Method : {} -> {}", email, code);
+
+        verificationService.sendEmail(email, code);
+        log.info("controller - Send Method(이메일을 성공적으로 보냄) : {}", code);
+
+
+        return "이메일을 성공적으로 보냈습니다." + email;
+    }
+
+    // 인증번호 일치하는지 확인
+    @PostMapping("/checkCode")
+    public String checkCode(@RequestBody VerificationRequest vr) {
+        boolean isValid = verificationService.verifyCodeWithVO(vr);
+
+        log.info("Controller - checkCode method isValid : {}", isValid);
+        if (isValid) {
+            return "인증번호가 일치합니다.";
+        }
+        return "인증번호가 일치하지 않습니다.";
     }
 }

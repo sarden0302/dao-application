@@ -1,7 +1,6 @@
 package edu.kh.com.daoapplication.service;
 
-import edu.kh.com.daoapplication.entity.KHTBook;
-import edu.kh.com.daoapplication.entity.KHTUser;
+import edu.kh.com.daoapplication.model.entity.KHTUser;
 import edu.kh.com.daoapplication.repository.KHTUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

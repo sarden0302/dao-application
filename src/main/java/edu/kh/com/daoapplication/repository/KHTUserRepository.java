@@ -1,6 +1,6 @@
 package edu.kh.com.daoapplication.repository;
 
-import edu.kh.com.daoapplication.entity.KHTUser;
+import edu.kh.com.daoapplication.model.entity.KHTUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package edu.kh.com.daoapplication.entity;
+package edu.kh.com.daoapplication.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

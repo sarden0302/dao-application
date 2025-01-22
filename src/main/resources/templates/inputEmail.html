@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이메일 인증하기</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>이메일 인증하기</h1>
+<input type="text" name="email" id="emailInput" placeholder="인증할 이메일 입력">
+<button id="sendCodeBtn">인증번호 보내기</button>
+<input id="codeInput" placeholder="인증번호 입력" type="text" disabled>
+<button id="checkCodeBtn" disabled>인증번호 확인</button>
+<script>
+    $(document).ready(function () {
+        let emailFinalInput = '';
+        let isVerified = false;
+
+        $("#emailInput").on('input', function () {
+            // 인증번호 입력창 초기화 및 비활성화
+            $("#codeInput").val("").prop("disabled", true);
+            // 인증번호 확인 버튼 비활성화
+            $("#checkCodeBtn").val("").prop("disabled", true);
+            //인증상태 초기화
+            isVerified = false;
+            /*
+            if (emailFinalInput !== $("#emailInput").val()) {
+                $("#checkCodeBtn").css('display', 'none');
+                $("#codeInput").prop("disabled", true);
+            }*/
+        })
+
+        $("#sendCodeBtn").click(function () {
+            let email = $("#emailInput").val().toLowerCase();
+            // 만약에 이메일 입력 안함
+            if (!email) {
+                alert("이메일을 입력해주세요.");
+                return;
+            }
+
+            $.ajax({
+                url: '/api/sendCode',
+                method: 'POST',
+                contentType: 'application/json', // 415 (Unsupported Media Type)
+                data: JSON.stringify({email: email}),
+                success: function (data) {
+                    $("#checkCodeBtn").prop('display', false);
+                    $("#codeInput").val("");
+                    $("#codeInput").prop("disabled", false);
+                    //emailFinalInput = $("#emailInput").val();
+                    alert(data);
+                },
+                error: function (error) {
+                    $("#checkCodeBtn").prop('display', true);
+                    $("#codeInput").prop("disabled", true);
+
+                    alert(error);
+                }
+            })
+        })
+        $("#checkCodeBtn").click(function () {
+            let email = $("#emailInput").val().toLowerCase();
+            let code = $("#codeInput").val();
+            console.log("email : " + email);
+            console.log("code : " + code);
+
+            $.ajax({
+                url: '/api/checkCode',
+                method: 'POST',
+                contentType:'application/json',
+                data:JSON.stringify({email:email, code:code}),
+                success: function (data) {
+                    //$("#codeInput").attr("readonly", true);
+                    $("#codeInput").prop("disabled", true); // 인증번호 입력창 비활성화
+                    $("checkCodeBtn").prop("disabled", true); // 인증번호 확인 버튼 비활성화
+                    alert("인증에 성공했습니다.");
+                    isVerified = true;
+                },
+                error: function (error) {
+                    $("#codeInput").prop("disabled", false);
+                    alert(error);
+                }
+            })
+        })
+    })
+</script>
+
+</body>
+</html>
