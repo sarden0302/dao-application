@@ -23,4 +23,7 @@ public class KHTBook {
 
     @Column(unique=false, nullable=false)
     private String genre;
+
+    @Column(unique=false, nullable=true)
+    private String imagePath;   // 책 표지 이미지 경로 추가
 }

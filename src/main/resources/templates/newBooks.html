@@ -97,6 +97,9 @@
     <label for="genre">장르 : </label>
     <input type="text" id="genre" name="genre" placeholder="책 장르 입력" required>
 
+    <label for="imagePath">이미지 선택</label>
+    <input type="file" id="imagePath" required>
+
     <button type="button" id="saveBook">등록하기</button> <!-- button type="submit" 기본값! -->
 
 </div>
@@ -105,16 +108,19 @@
         let title = $('#title').val();
         let author = $('#author').val();
         let genre = $('#genre').val();
+        // Multipart data 를 전송할 때 필요한 코드가 추가되어 있다.
+        let formData = new FormData(); // 이미지 데이터를 포함해서 전달하는 기능 사용
+        formData.append("title", title);
+        formData.append("author", author);
+        formData.append("genre", genre);
+        formData.append("file", $("#imagePath")[0].files[0]);
 
         $.ajax({
-            url: "/api/bookSave",
+            url: "/api/bookSaveImg",
             method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-                title: title,
-                author: author,
-                genre: genre
-            }),
+            processData: false, // FormData 를 전송할 때 필요
+            contentType: false, // FormData 를 전송할 때 필요
+            data: formData,
             success: function() {
                 alert("새로운 책이 성공적으로 등록되었습니다.");
                 // 실행 완료 후 redirect
