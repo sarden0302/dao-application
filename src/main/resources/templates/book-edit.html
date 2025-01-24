@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>책 수정하기</h1>
+<form >
+    <label>책 제목 : </label>
+    <span id="title"></span>
+
+    <label for="author">저자 : </label>
+    <input type="text" id="author">
+
+    <label for="genre">장르 : </label>
+    <input type="text" id="genre">
+
+    <label for="imagePath">이미지 경로 : </label>
+    <input type="text" id="imagePath">
+
+    <button type="button" id="editBtn">수정하기</button>
+</form>
+<script>
+    $(document).ready(function () {
+        const userId = new URLSearchParams(window.location.search).get("id");
+        console.log("userId : " + userId);
+
+        $.ajax({
+            url: `/api/${userId}/update`,
+            method: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify({
+
+            })
+
+
+        })
+
+
+    })
+
+
+</script>
+
+</body>
+</html>

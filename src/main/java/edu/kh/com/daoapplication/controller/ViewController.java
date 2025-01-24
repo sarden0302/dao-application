@@ -1,6 +1,7 @@
 package edu.kh.com.daoapplication.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,6 +50,11 @@ public class ViewController {
     @GetMapping("/book/add")
     public String saveBook() {
         return "newBooks";
+    }
+
+    @GetMapping("/books/update")
+    public String updateBook(@RequestParam("id") int id) {
+        return "book-edit";
     }
 
     @GetMapping("/inputEmail")

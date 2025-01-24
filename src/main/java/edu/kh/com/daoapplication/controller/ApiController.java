@@ -117,6 +117,12 @@ public class ApiController {
         return khtBookService.save(title, author, genre, file);
     }
 
+    @PutMapping("/books/{id}/update")
+    public int updateBooks(@PathVariable("id") int id,
+                           @RequestBody KHTBook khtBook) {
+        khtBook.setId(id);
+        return 1;
+    }
     /**************************** 이메일 인증 ***********************************/
     @Autowired
     private VerificationService verificationService;
